@@ -1,7 +1,13 @@
 /*  main.c  - main */
 
 #include <xinu.h>
-
+void sync_printf(char *fmt, ...)
+{
+        intmask mask = disable();
+        void *arg = __builtin_apply_args();
+        __builtin_apply((void*)kprintf, arg, 100);
+        restore(mask);
+}
 process increment(uint32 *x, uint32 n, sl_lock_t *mutex){
 	uint32 i, j;	
 	for (i=0; i<n; i++){
