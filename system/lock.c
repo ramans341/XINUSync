@@ -13,9 +13,11 @@ syscall lock(lock_t *l){
     while (test_and_set(&l->guard,1)==1);
     if (l->flag == 0){
         l->flag = 1;
+        //kprintf("Thread, %d accquired lock and flag is %d \n", currpid,flag);
         l->guard = 0;
     }
     else {
+        //kprintf("Thread, %d in queue \n", currpid);
         enqueue(currpid, l->lock_list);
         setpark(currpid);
         l->guard = 0;
@@ -24,7 +26,7 @@ syscall lock(lock_t *l){
 }
 
 syscall unlock(lock_t *l){
-    if (spinlock_count != 0){
+    if (lock_count != 0){
         while (test_and_set(&l->guard,1)==1);
         if (isempty(l->lock_list)){
             l->flag = 0;
