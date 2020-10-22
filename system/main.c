@@ -59,14 +59,14 @@ process	main(void)
 	sync_printf("%d threads, n=%d, target value=%d\n", nt, value, x);
 	if (x==value) kprintf("TEST PASSED.\n"); else kprintf("TEST FAILED.\n");*/
 
-	// 20 threads
+	/*// 20 threads
         kprintf("\n\n================= TEST 2 = 20 threads ===================\n");
         x = 0;  nt = 20;
  	initlock(&mutex); 
         resume(create((void *)nthreads, INITSTK, 1,"nthreads", 4, nt, &x, value/nt, &mutex));
         receive();
 	sync_printf("%d threads, n=%d, target value=%d\n", nt, value, x);
-        if (x==value) kprintf("TEST PASSED.\n"); else kprintf("TEST FAILED.\n");
+        if (x==value) kprintf("TEST PASSED.\n"); else kprintf("TEST FAILED.\n"); */
 
 	// 50 threads
         kprintf("\n\n================= TEST 3 = 50 threads ===================\n");
