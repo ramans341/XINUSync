@@ -13,11 +13,11 @@ syscall lock(lock_t *l){
     while (test_and_set(&l->guard,1)==1);
     if (l->flag == 0){
         l->flag = 1;
-        kprintf("Thread, %d accquired lock and flag is %d \n", currpid,l->flag);
+        //kprintf("Thread, %d accquired lock and flag is %d \n", currpid,l->flag);
         l->guard = 0;
     }
     else {
-        kprintf("Thread, %d in queue \n", currpid);
+        //kprintf("Thread, %d in queue \n", currpid);
         enqueue(currpid, l->lock_list);
         setpark(currpid);
         l->guard = 0;
@@ -68,7 +68,7 @@ void unpark(pid32 pid) {
     proctab[pid].park = 0;
     proctab[pid].prstate = PR_READY;
     insert(pid, readylist, proctab[pid].prprio);
-    kprintf("Thread, %d released from queue \n", pid);
+    //kprintf("Thread, %d released from queue \n", pid);
     restore(mask);
 
 }
