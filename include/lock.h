@@ -9,6 +9,7 @@ typedef struct _lock_t {
     int flag;
     int guard;
     qid16 lock_list;
+    pid32 owner_pid;
 }lock_t;
 
 extern uint32 test_and_set(uint32 *, uint32);
