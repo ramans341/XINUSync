@@ -1,5 +1,6 @@
 #define NSPINLOCKS      20
 
+
 typedef struct _sl_lock_t {
     int flag;
 }sl_lock_t;

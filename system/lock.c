@@ -30,7 +30,7 @@ syscall unlock(lock_t *l){
         while (test_and_set(&l->guard,1)==1);
         if (isempty(l->lock_list)){
             l->flag = 0;
-            kprintf("Thread, %d released lock and flag is %d\n", currpid, l->flag);
+            //kprintf("Thread, %d released lock and flag is %d\n", currpid, l->flag);
         }
         else{
             unpark(dequeue(l->lock_list));
