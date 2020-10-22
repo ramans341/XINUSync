@@ -13,7 +13,7 @@ syscall lock(lock_t *l){
     while (test_and_set(&l->guard,1)==1);
     if (l->flag == 0){
         l->flag = 1;
-        kprintf("Thread, %d accquired lock and flag is %d \n", currpid,L->flag);
+        kprintf("Thread, %d accquired lock and flag is %d \n", currpid,l->flag);
         l->guard = 0;
     }
     else {
