@@ -21,10 +21,10 @@ syscall	send(
 	}
 
 	prptr = &proctab[pid];
-	while (prptr->prhasmsg) {}
-                ready(currpid); 
+	while (prptr->prhasmsg) {
+            ready(currpid); 
       }
-	  
+
 	if (prptr->prhasmsg) {
 		restore(mask);
 		return SYSERR;
