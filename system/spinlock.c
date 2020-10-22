@@ -16,11 +16,8 @@ syscall sl_unlock(sl_lock_t *l){
         l->flag = 0; 
     }
 
-    else
-    {
+    else{
         return SYSERR;
     }
     
-
-
 }
