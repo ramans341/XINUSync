@@ -1,4 +1,6 @@
 #include <xinu.h>
+qid16 cycle_origin_list;
+qid16 detected_cycle_list;
 
 void find_deadlock(){
     kprintf("Deadlock called \n");
