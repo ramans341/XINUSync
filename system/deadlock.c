@@ -9,6 +9,12 @@ void find_deadlock(){
     for (i = 0; i < 13; i++){
         seen[i] = 0;
     }
+
+    for (i = 0; i < 13; i++){
+        kprintf("%d", P[i]);
+    }
+
+    kprintf("\n");
     kprintf("Seen initialised \n");
     for (i = 0; i < 13; i++){
         kprintf("In for loop %d, %d\n",i, P[i]);
