@@ -1,6 +1,7 @@
 #include <xinu.h>
 
 void find_deadlock(){
+    kprintf("Deadlock called \n");
     int count = 0;
     int seen[NPROC];
     int i,j = 0;
