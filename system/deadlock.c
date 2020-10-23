@@ -39,7 +39,7 @@ void find_deadlock(){
         }
     }
     kprintf("%d \n",count); 
-    while (!isempty(cycle_origin_list)){
+    while (count--){
         temp = dequeue(cycle_origin_list);
         kprintf ("%d ", temp);
     }
