@@ -3,13 +3,13 @@
 void find_deadlock(){
     int count = 0;
     int seen[NPROC];
-    int j = 0;
+    int i,j = 0;
 
-    for (int i = 0; i < NPROC; i++){
+    for (i = 0; i < NPROC; i++){
         seen[i] = 0;
     }
 
-    for (int i = 0; i < NPROC; i++){
+    for (i = 0; i < NPROC; i++){
         if (seen[i] != 1){
             j = i;
 
