@@ -8,7 +8,7 @@ void find_deadlock(){
     int count = 0;
     int seen[13];
     int i,j = 0;
-    pid32 temp;
+    int temp;
 
     for (i = 0; i < 13; i++){
         seen[i] = 0;

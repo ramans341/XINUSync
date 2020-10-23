@@ -27,7 +27,7 @@ int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
 int spinlock_count = 0;
 int lock_count = 0;
-pid32 P[13] = {-1, -1, -1, 4,-1,10,8,5,6,-1,7,-1,-1};
+int P[13] = {-1, -1, -1, 4,-1,10,8,5,6,-1,7,-1,-1};
 
 
 /* Control sequence to reset the console colors and cusor positiion	*/
