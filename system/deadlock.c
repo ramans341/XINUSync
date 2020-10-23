@@ -16,7 +16,7 @@ void find_deadlock(){
             j = i;
 
             while (P[j] != -1) {
-                kprintf("In While \n");
+                //kprintf("In While \n");
                 j = P[j];
                 seen[j] = 1;
                 if (P[j] == i){
