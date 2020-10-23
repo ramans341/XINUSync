@@ -1,6 +1,6 @@
 #include <xinu.h>
 
-int find_deadlock(){
+void find_deadlock(){
     int count = 0;
     int seen[NPROC];
     int j = 0;
