@@ -17,7 +17,7 @@ void find_deadlock(){
     kprintf("\n");
     kprintf("Seen initialised \n");
     for (i = 0; i < 13; i++){
-        kprintf("In for loop %d, %d\n",i, P[i]);
+        kprintf("In for loop %d, %d\n",i, seen[i]);
         if (seen[i] != 1){
             j = i;
 

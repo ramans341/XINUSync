@@ -27,7 +27,7 @@ int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
 int spinlock_count = 0;
 int lock_count = 0;
-//int P[13];
+int P[13];
 /* Control sequence to reset the console colors and cusor positiion	*/
 
 #define	CONSOLE_RESET	" \033[0m\033[2J\033[;H"
