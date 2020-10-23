@@ -27,7 +27,9 @@ int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
 int spinlock_count = 0;
 int lock_count = 0;
-int P[13] = {-1, -1, -1, 4,-1,10,8,5,6,-1,7,-1,-1};
+pid32 P[13] = {-1, -1, -1, 4,-1,10,8,5,6,-1,7,-1,-1};
+
+
 /* Control sequence to reset the console colors and cusor positiion	*/
 
 #define	CONSOLE_RESET	" \033[0m\033[2J\033[;H"
@@ -211,6 +213,8 @@ static	void	sysinit()
 	/* Create a ready list for processes */
 
 	readylist = newqueue();
+	cycle_origin_list = newqueue();
+	detected_cycle_list = newqueue();
 
 
 	/* initialize the PCI bus */
