@@ -1,8 +1,9 @@
 #include <xinu.h>
-qid16 cycle_origin_list;
-qid16 detected_cycle_list;
+
 
 void find_deadlock(){
+    qid16 cycle_origin_list = newqueue();
+	qid16 detected_cycle_list = newqueue();
     kprintf("Deadlock called \n");
     int count = 0;
     int seen[13];
@@ -14,7 +15,7 @@ void find_deadlock(){
     }
 
     for (i = 0; i < 13; i++){
-        kprintf("%d", P[i]);
+        kprintf("%d ", P[i]);
     }
 
    
