@@ -21,11 +21,11 @@ process p_lock2(al_lock_t* l1, al_lock_t* l2) {
 	for (i = 0; i < 10000; i++) {
 		//kprintf("%d\n", x++);
 		al_lock(l1);
-		for (j = 0;j < 1000000;j++)k *= 2;
+		for (j = 0;j < 10000000;j++)k *= 2;
 		al_lock(l2);
-		for (j = 0;j < 1000000;j++)k *= 2;
+		for (j = 0;j < 10000000;j++)k *= 2;
 		al_unlock(l2);
-		for (j = 0;j < 1000000;j++)k *= 2;
+		for (j = 0;j < 10000000;j++)k *= 2;
 		al_unlock(l1);
 	}
 	//kprintf("Finished\n");
