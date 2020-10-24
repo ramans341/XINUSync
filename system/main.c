@@ -8,7 +8,7 @@ process p_lock(al_lock_t* l) {
 	for (i = 0; i < 1000; i++) {
 		//kprintf("%d\n", x++);
 		al_lock(l);
-		for (j = 0;j < 1000000;j++) k *= 2;
+		for (j = 0;j < 100000000;j++) k *= 2;
 		al_unlock(l);
 	}
 	//kprintf("Finished\n");
@@ -74,13 +74,13 @@ process	main(void)
 	sleepms(500);
 	resume(pid8);
 	sleepms(500);
-	/*resume(pid1);
+	resume(pid1);
 	resume(pid2);
 	sleepms(500);
 	resume(pid3);
 	sleepms(500);
 	resume(pid4);
-	resume(pid9);*/
+	resume(pid9);
 
 
 	for (i = 0;i < 3;i++) {
