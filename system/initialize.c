@@ -24,6 +24,7 @@ struct	memblk	memlist;	/* List of free memory blocks		*/
 /* Active system status */
 
 int32 P[NPROC];
+int32 printed[NPROC];
 int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
 int spinlock_count = 0;
@@ -187,6 +188,7 @@ static	void	sysinit()
 		prptr->prstkbase = NULL;
 		prptr->prprio = 0;
 		P[i] = -1;
+		printed[i] = 0;
 	}
 
 	/* Initialize the Null process entry */	

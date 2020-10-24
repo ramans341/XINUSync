@@ -2,7 +2,7 @@
 
 
 extern  int P[];
-
+extern  int printed[];
 typedef struct _sl_lock_t {
     int flag;
 }sl_lock_t;

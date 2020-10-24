@@ -8,7 +8,7 @@ void find_deadlock(){
     //kprintf("Deadlock called %d\n", currpid);
     int count = 0;
     int seen[NPROC];
-    int i,j = 0;
+    int i,j,h,flag = 0;
     int32 origin,temp;
 
     for (i = 0; i < NPROC; i++){
@@ -31,7 +31,7 @@ void find_deadlock(){
                 if (P[j] == i){
                     enqueue(P[j],cycle_origin_list);
                     count++;
-                    kprintf("counting cycle %d\n",count);
+                    //kprintf("counting cycle %d\n",count);
                     break;
                 }
             }
@@ -41,20 +41,26 @@ void find_deadlock(){
         }
     }
     //kprintf("%d \n",count); 
-    while (count){
-        /*kprintf ("Deadlock Detected %d \n",count);
+    while (count--){
+        kprintf ("Deadlock Detected %d \n",count);
         temp = origin = dequeue(cycle_origin_list);
-        do {
-           insert(temp,detected_cycle_list,-temp);
-            temp = P[temp];
-        }while(temp != origin);
 
-        while(!isempty(detected_cycle_list)){
-            temp = dequeue(detected_cycle_list);
-            kprintf("P%d-",temp);
-        }*/
-        kprintf ("Deadlock Count %d \n", count);
-        count--;
+        if (printed[origin] == 0) {
+            printed[origin] = 1;
+            do {
+            insert(temp,detected_cycle_list,-temp);
+                temp = P[temp];
+            }while(temp != origin);
+
+            while(!isempty(detected_cycle_list)){
+                temp = dequeue(detected_cycle_list);
+                kprintf("P%d-",temp);
+            }
+
+        }
+        
+        //kprintf ("Deadlock Count %d \n", count);
+        //count--;
         /*kprintf("##%d \n",!isempty(cycle_origin_list));
         kprintf ("%d \n",dequeue(cycle_origin_list));
         kprintf ("\n");*/
