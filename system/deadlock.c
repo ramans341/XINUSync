@@ -2,7 +2,7 @@
 
 
 void find_deadlock(){
-    kprintf("chk\n");
+    kprintf("chk %d\n", currpid);
     qid16 cycle_origin_list = newqueue();
 	qid16 detected_cycle_list = newqueue();
     //kprintf("Deadlock called %d\n", currpid);
@@ -29,9 +29,9 @@ void find_deadlock(){
                 j = P[j];
                 seen[j] = 1;
                 if (P[j] == i){
-                    //kprintf("enqueueing %d\n",P[j]);
                     enqueue(P[j],cycle_origin_list);
                     count++;
+                    kprintf("counting cycle %d\n",count);
                     break;
                 }
             }
@@ -41,8 +41,8 @@ void find_deadlock(){
         }
     }
     //kprintf("%d \n",count); 
-    while (count--){
-        kprintf ("Deadlock Detected %d \n",count);
+    while (count){
+        /*kprintf ("Deadlock Detected %d \n",count);
         temp = origin = dequeue(cycle_origin_list);
         do {
            insert(temp,detected_cycle_list,-temp);
@@ -52,8 +52,9 @@ void find_deadlock(){
         while(!isempty(detected_cycle_list)){
             temp = dequeue(detected_cycle_list);
             kprintf("P%d-",temp);
-        }
-        
+        }*/
+        kprintf ("Deadlock Count %d \n", count);
+        count--;
         /*kprintf("##%d \n",!isempty(cycle_origin_list));
         kprintf ("%d \n",dequeue(cycle_origin_list));
         kprintf ("\n");*/
