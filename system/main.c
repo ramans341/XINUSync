@@ -49,7 +49,7 @@ process	main(void)
 	al_initlock(&mutex6);
 	al_initlock(&mutex7);
 	al_initlock(&mutex8);
-
+    kprintf("All process initialised \n");
 	pid1 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex1);
 	pid2 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex2);
 	pid3 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
