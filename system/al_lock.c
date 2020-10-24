@@ -57,7 +57,7 @@ void al_park() {
     intmask mask = disable();
 
     if (proctab[currpid].park == 1){
-        proctab[currpid].prstate = PR_SUSP;	
+        proctab[currpid].prstate = PR_SLEEP;	
         resched();
     }
    
