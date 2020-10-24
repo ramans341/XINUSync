@@ -70,11 +70,11 @@ process	main(void)
 	resume(pid10);
     kprintf("Process 10 resumed\n");
 	sleepms(500);
-	/*resume(pid6);
+	resume(pid6);
 	sleepms(500);
 	resume(pid8);
 	sleepms(500);
-	resume(pid1);
+	/*resume(pid1);
 	resume(pid2);
 	sleepms(500);
 	resume(pid3);
