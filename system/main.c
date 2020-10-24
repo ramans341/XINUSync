@@ -83,7 +83,7 @@ process	main(void)
 	resume(pid9);
 
 
-	for (i = 0;i < 3;i++) {
+	for (i = 0;i < 10;i++) {
 		receive();
 		kprintf("%d / %d processes finished\n", i + 1, 10);
 	}
