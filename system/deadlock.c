@@ -30,6 +30,7 @@ void find_deadlock(){
                 seen[j] = 1;
                 if(P[j]==-1)break;
                 if (P[j] == i){
+                    kprintf("i %d \n", i);
                     //kprintf("en %d \n", P[j]);
                     enqueue(i,cycle_origin_list);
                     count++;
