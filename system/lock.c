@@ -20,7 +20,7 @@ syscall lock(lock_t *l){
     else {
         P[currpid] = l->owner_pid; 
         enqueue(currpid, l->lock_list);
-        find_deaadlock();
+        find_deadlock();
         setpark(currpid);
         l->guard = 0;
         park();
