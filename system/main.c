@@ -5,7 +5,7 @@ int x = 0;
 process p_lock(al_lock_t* l) {
 	uint32 i, j;
 	uint32 k = 1;
-	for (i = 0; i < 100; i++) {
+	for (i = 0; i < 10; i++) {
 		kprintf("%d\n", x++);
 		al_lock(l);
 		for (j = 0;j < 10000000;j++) k *= 2;
