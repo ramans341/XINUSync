@@ -21,9 +21,9 @@ syscall al_lock(al_lock_t *l){
         P[currpid] = l->owner_pid; 
         enqueue(currpid, l->lock_list);
         find_deadlock();
-        setpark(currpid);
+        al_setpark(currpid);
         l->guard = 0;
-        park();
+        al_park();
     }
     l->owner_pid = (pid32)getpid();
 }
@@ -39,7 +39,7 @@ syscall al_unlock(al_lock_t *l){
             next_pid = dequeue(l->lock_list);
             l->owner_pid = next_pid;
             P[next_pid] = -1;
-            unpark(next_pid);
+            al_unpark(next_pid);
         }
 
         l->guard = 0;   
@@ -52,7 +52,7 @@ syscall al_unlock(al_lock_t *l){
 
 
 
-void park() {
+void al_park() {
     intmask mask = disable();
 
     if (proctab[currpid].park == 1){
@@ -64,11 +64,11 @@ void park() {
 
 }
 
-void setpark(pid32 pid) {
+void al_setpark(pid32 pid) {
     proctab[pid].park = 1;
 }
 
-void unpark(pid32 pid) {
+void al_unpark(pid32 pid) {
     
     intmask mask = disable();
     proctab[pid].park = 0;
