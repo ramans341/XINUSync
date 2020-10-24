@@ -4,7 +4,7 @@
 void find_deadlock(){
     qid16 cycle_origin_list = newqueue();
 	//qid16 detected_cycle_list = newqueue();
-    kprintf("Deadlock called \n");
+    kprintf("Deadlock called %d\n", currpid);
     int count = 0;
     int seen[NPROC];
     int i,j = 0;
