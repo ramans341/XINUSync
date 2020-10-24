@@ -54,6 +54,7 @@ void find_deadlock(){
             kprintf("P%d-",temp);
         }
         */
+        kprintf("##%d \n",!isempty(cycle_origin_list));
         dequeue(cycle_origin_list);
         kprintf ("\n");
     }
