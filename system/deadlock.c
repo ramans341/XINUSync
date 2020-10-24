@@ -34,6 +34,9 @@ void find_deadlock(){
                     //kprintf("counting cycle %d\n",count);
                     break;
                 }
+                else if (P[j] == -1){
+                    break;
+                }
             }
 
             seen[i] = 1;
