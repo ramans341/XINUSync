@@ -14,7 +14,7 @@ void find_deadlock(){
         seen[i] = 0;
     }
 
-    for (i = 0; i < 15; i++){
+    for (i = 0; i < 20; i++){
         kprintf("%d ", P[i]);
     }
     kprintf("\n");
