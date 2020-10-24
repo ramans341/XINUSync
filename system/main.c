@@ -74,16 +74,16 @@ process	main(void)
 	sleepms(500);
     kprintf("Second 2 resumed\n");
 	resume(pid1);
-	/*resume(pid2);
-	sleepms(500);
+	resume(pid2);
+	//sleepms(500);
 	resume(pid3);
-	sleepms(500);
+	//sleepms(500);
 	resume(pid4);
-	resume(pid9);*/
+	resume(pid9);
     kprintf("Last 5 resumed\n");
 
 
-	for (i = 0;i < 6;i++) {
+	for (i = 0;i < 10;i++) {
 		receive();
 		kprintf("%d / %d processes finished\n", i + 1, 10);
 	}
