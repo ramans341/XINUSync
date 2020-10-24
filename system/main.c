@@ -62,7 +62,7 @@ process	main(void)
 	pid10 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex4, &mutex5);
     kprintf("All process created\n");
 
-	resume(pid5);
+	/*resume(pid5);
 	sleepms(500);
 	resume(pid7);
 	resume(pid10);
@@ -75,7 +75,7 @@ process	main(void)
     kprintf("Second 2 resumed\n");
 	resume(pid1);
 	resume(pid2);
-	//sleepms(500);
+	//sleepms(500);*/
 	resume(pid3);
 	//sleepms(500);
 	resume(pid4);
