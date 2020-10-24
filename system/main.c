@@ -62,7 +62,7 @@ process	main(void)
 	pid10 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex4, &mutex5);
     kprintf("All process created\n");
 
-	/*resume(pid5);
+	resume(pid5);
 	sleepms(500);
 	resume(pid7);
 	resume(pid10);
@@ -75,15 +75,15 @@ process	main(void)
     kprintf("Second 2 resumed\n");
 	resume(pid1);
 	resume(pid2);
-	//sleepms(500);*/
+	//sleepms(500);
 	resume(pid3);
 	//sleepms(500);
 	resume(pid4);
 	resume(pid9);
-    kprintf("Last 3 resumed\n");
+    kprintf("Last 5 resumed\n");
 
 
-	for (i = 0;i < 3;i++) {
+	for (i = 0;i < 10;i++) {
 		receive();
 		kprintf("%d / %d processes finished\n", i + 1, 10);
 	}

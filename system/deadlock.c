@@ -15,10 +15,10 @@ void find_deadlock(){
         seen[i] = 0;
     }
 
-    for (i = 0; i < 15; i++){
+    /*for (i = 0; i < 15; i++){
         kprintf("%d ", P[i]);
     }
-    kprintf("\n");
+    kprintf("\n");*/
    
     for (i = 0; i < NPROC; i++){
         //kprintf("In for loop %d, %d\n",i, seen[i]);
@@ -43,12 +43,12 @@ void find_deadlock(){
                 
         }
     }
-    kprintf("%d \n",count); 
+    //kprintf("%d \n",count); 
     while (!isempty(cycle_origin_list)){
         //kprintf ("Deadlock Detected %d \n",count);
         temp = origin = dequeue(cycle_origin_list);
         kprintf ("Dequed %d \n",origin);
-        //if(origin==-1)break;
+        if(origin==-1)break;
         if (printed[origin] == 0) {
             //kprintf("Printing cycle with origin %d \n",origin);
             printed[origin] = 1;
