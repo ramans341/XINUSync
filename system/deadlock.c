@@ -15,10 +15,10 @@ void find_deadlock(){
         seen[i] = 0;
     }
 
-    /*for (i = 0; i < 20; i++){
+    for (i = 0; i < 20; i++){
         kprintf("%d ", P[i]);
     }
-    kprintf("\n");*/
+    kprintf("\n");
    
     for (i = 0; i < NPROC; i++){
         //kprintf("In for loop %d, %d\n",i, seen[i]);
