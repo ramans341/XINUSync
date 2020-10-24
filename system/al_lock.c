@@ -14,7 +14,6 @@ syscall al_lock(al_lock_t *l){
     while (test_and_set(&l->guard,1)==1);
     if (l->flag == 0){
         l->flag = 1;
-        l->owner_pid = (pid32)getpid();
         P[currpid] = -1;
         l->guard = 0;
     }
@@ -27,7 +26,7 @@ syscall al_lock(al_lock_t *l){
         l->guard = 0;
         al_park();
     }
-    //shifted
+    l->owner_pid = currpid;
 }
 
 syscall al_unlock(al_lock_t *l){
