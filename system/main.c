@@ -75,7 +75,7 @@ process	main(void)
     kprintf("Second 2 resumed\n");
 	resume(pid1);
 	resume(pid2);
-	//sleepms(500);
+	sleepms(500);
 	resume(pid3);
 	//sleepms(500);
 	resume(pid4);
