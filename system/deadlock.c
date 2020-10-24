@@ -8,7 +8,7 @@ void find_deadlock(){
     int count = 0;
     int seen[NPROC];
     int i,j = 0;
-    int temp;
+    int32 origin,temp;
 
     for (i = 0; i < NPROC; i++){
         seen[i] = 0;
@@ -41,8 +41,13 @@ void find_deadlock(){
     }
     //kprintf("%d \n",count); 
     while (count){
-        //temp = dequeue(cycle_origin_list);
         kprintf ("Deadlock Detected %d \n",count);
+        temp = origin = dequeue(cycle_origin_list);
+        do {
+            kprintf("%d ",temp);
+            temp = P[temp];
+        }while(temp != origin);
         count--;
+        kprintf ("\n");
     }
 }
