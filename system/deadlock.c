@@ -40,8 +40,8 @@ void find_deadlock(){
         }
     }
     //kprintf("%d \n",count); 
-    while (count--){
+    /*while (count--){
         temp = dequeue(cycle_origin_list);
         kprintf ("%d ", temp);
-    }
+    }*/
 }

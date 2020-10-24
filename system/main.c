@@ -50,15 +50,15 @@ process	main(void)
 	al_initlock(&mutex7);
 	al_initlock(&mutex8);
     kprintf("All process initialised \n");
-	pid1 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex1);
+	/*pid1 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex1);
 	pid2 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex2);
 	pid3 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
-	pid4 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
+	pid4 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);*/
 	pid5 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex3, &mutex4);
-	pid6 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex6, &mutex7);
+	//pid6 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex6, &mutex7);
 	pid7 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex5, &mutex3);
-	pid8 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex7, &mutex6);
-	pid9 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
+	//pid8 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex7, &mutex6);
+	//pid9 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
 	pid10 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex4, &mutex5);
     kprintf("All process created\n");
 
@@ -70,7 +70,7 @@ process	main(void)
 	resume(pid10);
     kprintf("Process 10 resumed\n");
 	sleepms(500);
-	resume(pid6);
+	/*resume(pid6);
 	sleepms(500);
 	resume(pid8);
 	sleepms(500);
@@ -80,7 +80,7 @@ process	main(void)
 	resume(pid3);
 	sleepms(500);
 	resume(pid4);
-	resume(pid9);
+	resume(pid9);*/
 
 
 	for (i = 0;i < 10;i++) {
