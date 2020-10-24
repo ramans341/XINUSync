@@ -80,10 +80,10 @@ process	main(void)
 	//sleepms(500);
 	resume(pid4);
 	resume(pid9);
-    kprintf("Last 5 resumed\n");
+    kprintf("Last 3 resumed\n");
 
 
-	for (i = 0;i < 10;i++) {
+	for (i = 0;i < 3;i++) {
 		receive();
 		kprintf("%d / %d processes finished\n", i + 1, 10);
 	}
