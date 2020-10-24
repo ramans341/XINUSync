@@ -40,7 +40,7 @@ void find_deadlock(){
         }
     }
     //kprintf("%d \n",count); 
-    while (count){
+    while (!isempty(cycle_origin_list)){
         kprintf ("Deadlock Detected %d \n",count);
         temp = origin = dequeue(cycle_origin_list);
         do {
@@ -50,10 +50,10 @@ void find_deadlock(){
 
         while(!isempty(detected_cycle_list)){
             temp = dequeue(detected_cycle_list);
-            kprintf("P%d- ",temp);
+            kprintf("P%d-",temp);
         }
 
-        count--;
+        dequeue(cycle_origin_list);
         kprintf ("\n");
     }
 }
