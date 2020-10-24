@@ -42,7 +42,7 @@ void find_deadlock(){
     //kprintf("%d \n",count); 
     while (count){
         //temp = dequeue(cycle_origin_list);
-        kprintf ("Deadlock Detected %d",count);
+        kprintf ("Deadlock Detected %d \n",count);
         count--;
     }
 }
