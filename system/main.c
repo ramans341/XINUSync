@@ -60,12 +60,15 @@ process	main(void)
 	pid8 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex7, &mutex6);
 	pid9 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
 	pid10 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex4, &mutex5);
-
+    kprintf("All process created\n");
 
 	resume(pid5);
 	sleepms(500);
+    kprintf("Process 5 resumed\n");
 	resume(pid7);
+    kprintf("Process 7 resumed\n");
 	resume(pid10);
+    kprintf("Process 10 resumed\n");
 	sleepms(500);
 	resume(pid6);
 	sleepms(500);
@@ -78,6 +81,7 @@ process	main(void)
 	sleepms(500);
 	resume(pid4);
 	resume(pid9);
+
 
 	for (i = 0;i < 10;i++) {
 		receive();
