@@ -1,6 +1,6 @@
 #include <xinu.h>
 
-syscall al_initlock(_al_lock_t* l){
+syscall al_initlock(al_lock_t* l){
     if (++al_lock_count > NSPINLOCKS) {
         return SYSERR;
     }
