@@ -23,11 +23,12 @@ struct	memblk	memlist;	/* List of free memory blocks		*/
 
 /* Active system status */
 
+int32 P[NPROC];
 int	prcount;		/* Total number of live processes	*/
 pid32	currpid;		/* ID of currently executing process	*/
 int spinlock_count = 0;
 int lock_count = 0;
-int P[13] = {-1, -1, -1, 4,-1,10,8,5,6,-1,7,-1,-1};
+
 
 
 /* Control sequence to reset the console colors and cusor positiion	*/
@@ -184,6 +185,7 @@ static	void	sysinit()
 		prptr->prname[0] = NULLCH;
 		prptr->prstkbase = NULL;
 		prptr->prprio = 0;
+		P[i] = -1;
 	}
 
 	/* Initialize the Null process entry */	
