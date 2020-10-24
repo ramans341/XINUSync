@@ -29,7 +29,8 @@ void find_deadlock(){
                 j = P[j];
                 seen[j] = 1;
                 if (P[j] == i){
-                    enqueue(P[j],cycle_origin_list);
+                    //kprintf("en %d \n", P[j]);
+                    enqueue(i,cycle_origin_list);
                     count++;
                    // kprintf("counting cycle %d\n",count);
                     break;
