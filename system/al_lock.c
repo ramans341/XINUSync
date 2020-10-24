@@ -19,7 +19,7 @@ syscall al_lock(al_lock_t *l){
     }
     else {
         P[currpid] = l->owner_pid; 
-        kprintf(" %d hldng lk %d enqd\n",l->owner_pid,currpid);
+        //kprintf(" %d hldng lk %d enqd\n",l->owner_pid,currpid);
         enqueue(currpid, l->lock_list);
         find_deadlock();
         al_setpark(currpid);
