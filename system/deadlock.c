@@ -34,9 +34,6 @@ void find_deadlock(){
                     //kprintf("counting cycle %d\n",count);
                     break;
                 }
-                else if (P[j] == -1){
-                    break;
-                }
             }
 
             seen[i] = 1;
@@ -49,6 +46,7 @@ void find_deadlock(){
         temp = origin = dequeue(cycle_origin_list);
 
         if (printed[origin] == 0) {
+            kprintf("Printing cycle with origin %d \n",origin);
             printed[origin] = 1;
             do {
             insert(temp,detected_cycle_list,-temp);
