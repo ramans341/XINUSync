@@ -79,7 +79,7 @@ syscall pi_unlock(pi_lock_t *l){
         kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
 
         l->guard = 0;   
-
+        max = 0;
         
     }
 
