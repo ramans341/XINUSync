@@ -13,7 +13,6 @@ syscall pi_initlock(pi_lock_t* l){
 syscall pi_lock(pi_lock_t *l){
 
     pri16 temp_prio;
-    intmask mask;
 
     while (test_and_set(&l->guard,1)==1);
     
@@ -26,7 +25,6 @@ syscall pi_lock(pi_lock_t *l){
         
     }
     else {
-        mask  = disable();
         if (isempty(l->lock_list)){
             P[currpid] = l->owner_pid;
         }
@@ -41,7 +39,6 @@ syscall pi_lock(pi_lock_t *l){
         priority_boosting();
         pi_setpark(currpid);
         l->guard = 0;
-        restore(mask);
         pi_park();
     }
     l->owner_pid = currpid;
