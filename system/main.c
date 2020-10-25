@@ -37,7 +37,7 @@ process main(void) {
 	sleepms(50);
 	resume(p2);
 	kprintf("Resumed p2 \n");
-    sleepms(50);
+    sleepms(10);
 	resume(p3);
 	kprintf("Resumed p3 \n");
 
