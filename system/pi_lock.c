@@ -55,7 +55,7 @@ syscall pi_lock(pi_lock_t *l){
 syscall pi_unlock(pi_lock_t *l){
     pid32 next_pid;
     int32 o = 0;
-    pri16 maxim,old = 0;
+    pri16 maxim,old,temp_prio = 0;
 
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
         kprintf("Enterted Unlock \n");
