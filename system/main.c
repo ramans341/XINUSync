@@ -9,7 +9,7 @@ uint32 get_timestamp(){
 void run_for_ms(uint32 time){
 	uint32 start = proctab[currpid].runtime;
 	while (proctab[currpid].runtime-start < time)
-        {kprintf(proctab[currpid].runtime-start);}
+        {kprintf("%d, %d\n", currpid, proctab[currpid].runtime-start);}
 }
 
 process p_lock(pi_lock_t *l){
