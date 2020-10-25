@@ -27,6 +27,7 @@ process main(void) {
     pid32 p1,p2;
 	int i;
 	
+    pi_initlock(&lock1);
     p1 = create((void *)p_lock, INITSTK, 1,"nthreads", 1, &lock1);
     p2 = create((void *)p_lock, INITSTK, 2,"nthreads", 1, &lock1);
 	kprintf("Created Processes \n");
