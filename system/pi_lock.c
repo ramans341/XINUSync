@@ -14,7 +14,7 @@ syscall pi_lock(pi_lock_t *l){
 
     pri16 temp_prio;
 
-    while (test_and_set(&l->guard,1)==1);
+    if (test_and_set(&l->guard,1)==1);
     
 
     if (l->flag == 0){
