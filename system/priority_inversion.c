@@ -1,6 +1,7 @@
 # include <xinu.h>
 
 void priority_boosting(){
+    kprintf("PBC \n");
     int32 i = 0;
     pri16 oldpri = 0;
     i = currpid;
