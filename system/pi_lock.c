@@ -13,6 +13,7 @@ syscall pi_initlock(pi_lock_t* l){
 syscall pi_lock(pi_lock_t *l){
     while (test_and_set(&l->guard,1)==1);
     if (l->flag == 0){
+        kprintf("%d acq lk\n", currpid);
         l->flag = 1;
         P[currpid] = -1;
         l->guard = 0;
@@ -26,7 +27,8 @@ syscall pi_lock(pi_lock_t *l){
             P[currpid] = lastid(l->lock_list);
         }
  
-        //kprintf(" %d hldng lk %d enqd\n",l->owner_pid,currpid);
+        
+        kprintf("%d enqd\n", currpid);
         enqueue(currpid, l->lock_list);
         priority_boosting();
         pi_setpark(currpid);
@@ -41,21 +43,7 @@ syscall pi_unlock(pi_lock_t *l){
     int32 i = 0;
     pri16 max,old = 0;
 
-   
-
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
-        while (test_and_set(&l->guard,1)==1);
-        if (isempty(l->lock_list)){
-            l->flag = 0;
-        }
-        else{
-            next_pid = dequeue(l->lock_list);
-            P[next_pid] = -1;
-            l->owner_pid = next_pid;
-            pi_unpark(next_pid);
-        }
-
-        l->guard = 0;   
 
         for (i = 0; i <NPROC; i++){
             if (P[i] == currpid && (proctab[i].prprio > max)){ 
@@ -69,7 +57,25 @@ syscall pi_unlock(pi_lock_t *l){
         else {
             proctab[currpid].prprio = proctab[currpid].oldprio;
         } 
-         kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
+        kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
+        
+        while (test_and_set(&l->guard,1)==1);
+        if (isempty(l->lock_list)){
+            kprintf("%d released lk\n", currpid);
+            l->flag = 0;
+        }
+
+
+        else{
+            next_pid = dequeue(l->lock_list);
+            P[next_pid] = -1;
+            l->owner_pid = next_pid;
+            pi_unpark(next_pid);
+        }
+
+        l->guard = 0;   
+
+        
     }
 
     else{
