@@ -18,7 +18,7 @@ syscall pi_lock(pi_lock_t *l){
     
 
     if (l->flag == 0){
-        kprintf("%d acq lk\n", currpid);
+        //kprintf("%d acq lk\n", currpid);
         l->flag = 1;
         P[currpid] = -1;
         l->guard = 0;
@@ -34,7 +34,7 @@ syscall pi_lock(pi_lock_t *l){
         }
  
         
-        kprintf("%d enqd\n", currpid);
+        //kprintf("%d enqd\n", currpid);
         enqueue(currpid, l->lock_list);
         priority_boosting();
         pi_setpark(currpid);
@@ -50,18 +50,18 @@ syscall pi_unlock(pi_lock_t *l){
     pri16 maxim,old = 0;
 
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
-        kprintf("Enterted Unlock \n");
+        //kprintf("Enterted Unlock \n");
         while (test_and_set(&l->guard,1)==1);
 
 
         if (isempty(l->lock_list)){
-            kprintf("%d released lk\n", currpid);
+            //kprintf("%d released lk\n", currpid);
             l->flag = 0;
         }
 
         else{
             next_pid = dequeue(l->lock_list);
-            kprintf("%d released lk and deqd %d\n", currpid, next_pid);
+            //kprintf("%d released lk and deqd %d\n", currpid, next_pid);
             P[next_pid] = -1;
             l->owner_pid = next_pid;
             pi_unpark(next_pid);
@@ -93,7 +93,7 @@ void reduce_priority(){
             }   
         }
         old = proctab[currpid].prprio;
-        kprintf("max is %d \n",maxim);
+        //kprintf("max is %d \n",maxim);
         if (maxim != 0){
             proctab[currpid].prprio = maxim;
         }
