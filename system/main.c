@@ -24,10 +24,24 @@ process p_lock(pi_lock_t *l){
 process main(void) {
     pi_lock_t lock1;
     pid32 p1,p2;
-
+	int i;
+	
     p1 = create((void *)p_lock, INITSTK, 1,"nthreads", 1, &lock1);
     p2 = create((void *)p_lock, INITSTK, 2,"nthreads", 1, &lock1);
+	kprintf("Created Processes \n");
 
+	resume(p1);
+	kprintf("Resumed p1 \n");
+	sleepms(50);
+	resume(p2);
+	kprintf("Resumed p2 \n");
+
+	for (i = 0; i < 2; i++){
+		receive();
+		kprintf("Process %d / %d received \n", i, 2);
+	}
+	
+	
 	return OK;
 
 }
