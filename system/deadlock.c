@@ -61,7 +61,7 @@ void find_deadlock(){
                 temp = dequeue(detected_cycle_list);
                 kprintf("P%d-",temp);
             }               
-
+            kprintf("\n");
         }
         
         //kprintf ("Deadlock Count %d \n", count);
