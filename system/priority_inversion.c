@@ -10,7 +10,7 @@ void priority_boosting(){
         if (proctab[i].prprio > proctab[P[i]].prprio){
             oldpri = proctab[P[i]].prprio;
             proctab[P[i]].prprio = proctab[i].prprio;
-            kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, oldpri, proctab[currpid].prprio);
+            kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", proctab[currpid], oldpri, proctab[currpid].prprio);
 
             i = P[i];
             while (P[i] != -1){
