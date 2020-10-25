@@ -48,7 +48,7 @@ void find_deadlock(){
         //kprintf ("Deadlock Detected %d \n",count);
         temp = origin = dequeue(cycle_origin_list);
         //kprintf ("Dequed %d \n",origin);
-        if(origin==-1)break;
+        //if(origin==-1)break;
         if (printed[origin] == 0) {
             //kprintf("Printing cycle with origin %d \n",origin);
             printed[origin] = 1;
