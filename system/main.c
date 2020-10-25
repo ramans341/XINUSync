@@ -41,10 +41,10 @@ process main(void) {
 	kprintf("========== PI - TESTCASE ========== \n");
     pi_initlock(&lock1);
     pi_initlock(&lock2);
-    p1 = create((void *)p_lock, INITSTK, 1,"nthreads", 1, &lock1);
-    p2 = create((void *)p2_lock, INITSTK, 2,"nthreads", 2, &lock2,&lock1);
-    p3 = create((void *)p_lock, INITSTK, 3,"nthreads", 1, &lock1);
-    p4 = create((void *)p_lock, INITSTK, 4,"nthreads", 1, &lock2);
+    p1 = create((void *)p_lock, INITSTK, 1,"1", 1, &lock1);
+    p2 = create((void *)p2_lock, INITSTK, 2,"2", 2, &lock2,&lock1);
+    p3 = create((void *)p_lock, INITSTK, 3,"3", 1, &lock1);
+    p4 = create((void *)p_lock, INITSTK, 4,"4", 1, &lock2);
 	kprintf("Created Processes \n");
 
 	resume(p1);
