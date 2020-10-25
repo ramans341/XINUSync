@@ -83,7 +83,7 @@ void reduce_priority(){
     int maxim = 0;
     pri16 old = 0;
     intmask mask;
-    disable(mask);
+    mask = disable();
     for (o = 0; o <NPROC; o++){
             //kprintf("In FoR %d \n", o);
             if (P[o] == currpid && (proctab[o].prprio > maxim)){
