@@ -18,10 +18,17 @@ syscall pi_lock(pi_lock_t *l){
         l->guard = 0;
     }
     else {
-        P[currpid] = l->owner_pid; 
+        if (isempty(l->lock_list)){
+            P[currpid] = l->owner_pid;
+        }
+
+        else {
+            P[currpid] = lastid(l->lock_list);
+        }
+ 
         //kprintf(" %d hldng lk %d enqd\n",l->owner_pid,currpid);
         enqueue(currpid, l->lock_list);
-        find_deadlock();
+        priority_boosting();
         pi_setpark(currpid);
         l->guard = 0;
         pi_park();
@@ -31,6 +38,11 @@ syscall pi_lock(pi_lock_t *l){
 
 syscall pi_unlock(pi_lock_t *l){
     pid32 next_pid;
+    int32 i = 0;
+    pri16 max = 0;
+
+   
+
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
         while (test_and_set(&l->guard,1)==1);
         if (isempty(l->lock_list)){
@@ -38,12 +50,24 @@ syscall pi_unlock(pi_lock_t *l){
         }
         else{
             next_pid = dequeue(l->lock_list);
-            l->owner_pid = next_pid;
             P[next_pid] = -1;
+            l->owner_pid = next_pid;
             pi_unpark(next_pid);
         }
 
         l->guard = 0;   
+
+        for (i = 0; i <NPROC; i++){
+            if (P[i] == currpid && (proctab[i].prprio > max)){ 
+                max = proctab[P[i]].prprio;
+            }   
+        }
+        if (max != 0){
+            proctab[currpid].prprio = max;
+        }
+        else {
+            proctab[currpid].prprio = proctab[currpid].oldprio;
+        }  
     }
 
     else{
