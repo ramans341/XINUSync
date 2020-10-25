@@ -58,7 +58,7 @@ syscall pi_unlock(pi_lock_t *l){
             proctab[currpid].prprio = proctab[currpid].oldprio;
         } 
         kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
-        
+
         while (test_and_set(&l->guard,1)==1);
         if (isempty(l->lock_list)){
             kprintf("%d released lk\n", currpid);
@@ -68,6 +68,7 @@ syscall pi_unlock(pi_lock_t *l){
 
         else{
             next_pid = dequeue(l->lock_list);
+            kprintf("%d released lk and deqd %d\n", currpid, next_pid);
             P[next_pid] = -1;
             l->owner_pid = next_pid;
             pi_unpark(next_pid);
