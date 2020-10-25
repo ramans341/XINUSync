@@ -67,7 +67,24 @@ syscall pi_unlock(pi_lock_t *l){
             pi_unpark(next_pid);
         }
         l->guard = 0;  
-        for (o = 0; o <NPROC; o++){
+        reduce_priority();
+        
+         maxim = 0;
+        
+    }
+
+    else{
+        return SYSERR;
+    }
+}
+
+void reduce_priority(){
+    int o = 0;
+    int maxim = 0;
+    pri16 old = 0;
+    intmask mask;
+    disable(mask);
+    for (o = 0; o <NPROC; o++){
             //kprintf("In FoR %d \n", o);
             if (P[o] == currpid && (proctab[o].prprio > maxim)){
                 //kprintf("FL max is %d \n",maxim); 
@@ -83,19 +100,9 @@ syscall pi_unlock(pi_lock_t *l){
         else {
             proctab[currpid].prprio = proctab[currpid].oldprio;
         } 
-        kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
-
-         
-        maxim = 0;
-        
-    }
-
-    else{
-        return SYSERR;
-    }
+    kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio);
+    restore(mask);
 }
-
-
 
 void pi_park() {
     intmask mask = disable();
