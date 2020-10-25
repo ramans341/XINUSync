@@ -3,6 +3,29 @@
 #include <xinu.h>
 #include <stdarg.h>
 
+/*------------------------------------------------------------------------
+
+* sync_printf  -  use interrupt disabling to print better
+
+*------------------------------------------------------------------------
+
+*/
+
+syscall sync_printf(char *fmt, ...)
+
+{
+
+        intmask mask = disable();
+
+        void *arg = __builtin_apply_args();
+
+        __builtin_apply((void*)kprintf, arg, 100);
+
+        restore(mask);
+
+        return OK;
+
+}
 
 /*------------------------------------------------------------------------
  * kputc  -  use polled I/O to write a character to the console
