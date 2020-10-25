@@ -67,7 +67,7 @@ syscall pi_unlock(pi_lock_t *l){
             l->owner_pid = next_pid;
             pi_unpark(next_pid);
         }
-
+        l->guard = 0;  
         for (i = 6; i <NPROC; i++){
             if (P[i] == currpid && (proctab[i].prprio > maxim)){ 
                 //maxim = proctab[i].prprio;
@@ -84,7 +84,7 @@ syscall pi_unlock(pi_lock_t *l){
         } 
         kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
 
-        l->guard = 0;   
+         
         maxim = 0;
         
     }
