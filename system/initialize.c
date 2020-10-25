@@ -30,6 +30,7 @@ pid32	currpid;		/* ID of currently executing process	*/
 int spinlock_count = 0;
 int lock_count = 0;
 int al_lock_count = 0;
+int pi_lock_count = 0;
 
 
 
