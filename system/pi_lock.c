@@ -66,11 +66,9 @@ syscall pi_unlock(pi_lock_t *l){
             l->owner_pid = next_pid;
             pi_unpark(next_pid);
         }
+        l->guard = 0; 
         reduce_priority();
-        l->guard = 0;  
-        
-        
-         maxim = 0;
+         
         
     }
 
@@ -102,6 +100,7 @@ void reduce_priority(){
             proctab[currpid].prprio = proctab[currpid].oldprio;
         } 
     kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio);
+    maxim = 0;
     restore(mask);
 }
 
