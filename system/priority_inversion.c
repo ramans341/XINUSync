@@ -2,7 +2,7 @@
 
 void priority_boosting(){
     int32 i = 0;
-    pri16 oldpir1 = 0;
+    pri16 oldpir = 0;
     i = currpid;
     
     if (P[currpid] != -1) {
