@@ -66,8 +66,9 @@ syscall pi_unlock(pi_lock_t *l){
             l->owner_pid = next_pid;
             pi_unpark(next_pid);
         }
-        l->guard = 0;  
         reduce_priority();
+        l->guard = 0;  
+        
         
          maxim = 0;
         
