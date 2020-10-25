@@ -58,7 +58,7 @@ syscall pi_unlock(pi_lock_t *l){
     pri16 maxim,old = 0;
 
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
-        kprintf("Enterted Unlock \n");
+        kprintf("%d Enterted Unlock \n", currpid);
         while (test_and_set(&l->guard,1)==1);
 
 
