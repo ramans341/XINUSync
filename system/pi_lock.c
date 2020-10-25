@@ -37,9 +37,9 @@ syscall pi_lock(pi_lock_t *l){
         
         kprintf("%d enqd\n", currpid);
         enqueue(currpid, l->lock_list);
-        priority_boosting();
         pi_setpark(currpid);
         l->guard = 0;
+        priority_boosting();
         pi_park();
     }
     l->owner_pid = currpid;
