@@ -111,7 +111,8 @@ void reduce_priority(){
         else {
             proctab[currpid].prprio = proctab[currpid].oldprio;
         } 
-    kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio);
+    if (currpid != old) {
+        kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio);}
     maxim = 0;
     restore(mask);
 }
