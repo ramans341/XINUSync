@@ -61,7 +61,7 @@ syscall pi_unlock(pi_lock_t *l){
             pi_unpark(next_pid);
         }
 
-        for (i = 0; i <NPROC; i++){
+        for (i = 6; i <NPROC; i++){
             if (P[i] == currpid && (proctab[i].prprio > max)){ 
                 max = proctab[P[i]].prprio;
             }   
