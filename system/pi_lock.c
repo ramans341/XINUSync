@@ -47,19 +47,6 @@ syscall pi_unlock(pi_lock_t *l){
         kprintf("Enterted Unlock \n");
         while (test_and_set(&l->guard,1)==1);
 
-        for (i = 0; i <NPROC; i++){
-            if (P[i] == currpid && (proctab[i].prprio > max)){ 
-                max = proctab[P[i]].prprio;
-            }   
-        }
-        old = proctab[currpid].prprio;
-        if (max != 0){
-            proctab[currpid].prprio = max;
-        }
-        else {
-            proctab[currpid].prprio = proctab[currpid].oldprio;
-        } 
-        kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
 
         if (isempty(l->lock_list)){
             kprintf("%d released lk\n", currpid);
@@ -73,6 +60,20 @@ syscall pi_unlock(pi_lock_t *l){
             l->owner_pid = next_pid;
             pi_unpark(next_pid);
         }
+
+        for (i = 0; i <NPROC; i++){
+            if (P[i] == currpid && (proctab[i].prprio > max)){ 
+                max = proctab[P[i]].prprio;
+            }   
+        }
+        old = proctab[currpid].prprio;
+        if (max != 0){
+            proctab[currpid].prprio = max;
+        }
+        else {
+            proctab[currpid].prprio = proctab[currpid].oldprio;
+        } 
+        kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
 
         l->guard = 0;   
 
