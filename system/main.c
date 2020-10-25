@@ -16,7 +16,7 @@ process p_lock(pi_lock_t *l){
 	for (i=0; i<5; i++){
 		pi_lock(l);
 		run_for_ms(1000);
-        kprintf("calling Unlock \n");
+        //kprintf("calling Unlock \n");
 		pi_unlock(l);		
 	}
 	return OK;
