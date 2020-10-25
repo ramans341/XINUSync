@@ -47,7 +47,7 @@ syscall pi_lock(pi_lock_t *l){
 
 syscall pi_unlock(pi_lock_t *l){
     pid32 next_pid;
-    int32 i = 0;
+    int32 o = 0;
     pri16 maxim,old = 0;
 
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
@@ -68,11 +68,11 @@ syscall pi_unlock(pi_lock_t *l){
             pi_unpark(next_pid);
         }
         l->guard = 0;  
-        for (i = 0; i <NPROC; i++){
+        for (o = 0; o <NPROC; o++){
             kprintf("In FoR %d \n", i);
-            if (P[i] == currpid && (proctab[i].prprio > maxim)){
+            if (P[o] == currpid && (proctab[o].prprio > maxim)){
                 kprintf("FL max is %d \n",maxim); 
-                maxim = proctab[i].prprio;
+                maxim = proctab[o].prprio;
                 break;
             }   
         }
