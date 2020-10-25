@@ -61,7 +61,7 @@ process main(void) {
 
 	for (i = 0; i < 4; i++){
 		receive();
-		kprintf("Process %d / %d received \n", i+1, 3);
+		kprintf("Process %d / %d received \n", i+1, 4);
 	}
 	
 	
