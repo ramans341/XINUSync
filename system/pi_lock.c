@@ -69,6 +69,7 @@ syscall pi_unlock(pi_lock_t *l){
         }
         l->guard = 0;  
         for (i = 0; i <NPROC; i++){
+            kprintf("In FoR %d \n", i);
             if (P[i] == currpid && (proctab[i].prprio > maxim)){
                 kprintf("FL max is %d \n",maxim); 
                 maxim = proctab[i].prprio;
