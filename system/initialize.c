@@ -190,6 +190,7 @@ static	void	sysinit()
 		prptr->prprio = 0;
 		P[i] = -1;
 		printed[i] = 0;
+		prptr->runtime = 0;
 	}
 
 	/* Initialize the Null process entry */	

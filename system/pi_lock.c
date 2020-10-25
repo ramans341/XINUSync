@@ -11,12 +11,19 @@ syscall pi_initlock(pi_lock_t* l){
 }
 
 syscall pi_lock(pi_lock_t *l){
+
+    pri16 temp_prio;
+    temp_prio = proctab[currpid].prprio;
+
     while (test_and_set(&l->guard,1)==1);
+    proctab[currpid].prprio = 30000;
+
     if (l->flag == 0){
         kprintf("%d acq lk\n", currpid);
         l->flag = 1;
         P[currpid] = -1;
         l->guard = 0;
+        proctab[currpid].prprio = temp_prio;
     }
     else {
         if (isempty(l->lock_list)){
@@ -33,6 +40,7 @@ syscall pi_lock(pi_lock_t *l){
         priority_boosting();
         pi_setpark(currpid);
         l->guard = 0;
+        proctab[currpid].prprio = temp_prio;
         pi_park();
     }
     l->owner_pid = currpid;
