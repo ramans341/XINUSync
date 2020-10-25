@@ -67,12 +67,12 @@ process	main(void)
 	resume(pid7);
 	resume(pid10);
 	sleepms(500);
-    kprintf("First 3 resumed\n");
+    //kprintf("First 3 resumed\n");
 	resume(pid6);
 	sleepms(500);
 	resume(pid8);
 	sleepms(500);
-    kprintf("Second 2 resumed\n");
+    //kprintf("Second 2 resumed\n");
 	resume(pid1);
 	resume(pid2);
 	//sleepms(500);
@@ -80,7 +80,7 @@ process	main(void)
 	//sleepms(500);
 	resume(pid4);
 	resume(pid9);
-    kprintf("Last 5 resumed\n");
+    //kprintf("Last 5 resumed\n");
 
 
 	for (i = 0;i < 10;i++) {
