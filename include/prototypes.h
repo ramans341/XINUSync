@@ -11,7 +11,7 @@ extern void priority_boosting(void);
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
 
-extern syscall sync_printf(char , ...);
+//extern syscall sync_printf(char , ...);
 
 /* in file arp.c */
 extern	void	arp_init(void);
