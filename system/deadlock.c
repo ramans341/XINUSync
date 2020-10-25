@@ -30,7 +30,7 @@ void find_deadlock(){
                 seen[j] = 1;
                 if(P[j]==-1)break;
                 if (P[j] == i){
-                    kprintf("i %d \n", i);
+                    //kprintf("i %d \n", i);
                     //kprintf("en %d \n", P[j]);
                     enqueue(i,cycle_origin_list);
                     count++;
@@ -47,7 +47,7 @@ void find_deadlock(){
     while (!isempty(cycle_origin_list)){
         //kprintf ("Deadlock Detected %d \n",count);
         temp = origin = dequeue(cycle_origin_list);
-        kprintf ("Dequed %d \n",origin);
+        //kprintf ("Dequed %d \n",origin);
         if(origin==-1)break;
         if (printed[origin] == 0) {
             //kprintf("Printing cycle with origin %d \n",origin);
@@ -60,7 +60,7 @@ void find_deadlock(){
             while(!isempty(detected_cycle_list)){
                 temp = dequeue(detected_cycle_list);
                 kprintf("P%d-",temp);
-            }
+            }               
 
         }
         
