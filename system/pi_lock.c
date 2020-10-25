@@ -61,8 +61,9 @@ syscall pi_unlock(pi_lock_t *l){
         kprintf("Enterted Unlock \n");
         while (test_and_set(&l->guard,1)==1);
 
+        temp_prio = proctab[currpid].prprio;
+        proctab[currpid].prprio = 30000;
         
-
         if (isempty(l->lock_list)){
             kprintf("%d released lk\n", currpid);
             l->flag = 0;
@@ -76,6 +77,8 @@ syscall pi_unlock(pi_lock_t *l){
             pi_unpark(next_pid);
         }
         l->guard = 0; 
+         
+        proctab[currpid].prprio = temp_prio;
         reduce_priority();
          
         
