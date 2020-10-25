@@ -8,8 +8,7 @@ uint32 get_timestamp(){
 
 void run_for_ms(uint32 time){
 	uint32 start = proctab[currpid].runtime;
-	while (proctab[currpid].runtime-start < time)
-        {kprintf("%d, %d\n", currpid, proctab[currpid].runtime-start);}
+	while (proctab[currpid].runtime-start < time);
 }
 
 process p_lock(pi_lock_t *l){
@@ -17,6 +16,7 @@ process p_lock(pi_lock_t *l){
 	for (i=0; i<5; i++){
 		pi_lock(l);
 		run_for_ms(1000);
+        kprintf("calling Unlock \n");
 		pi_unlock(l);		
 	}
 	return OK;

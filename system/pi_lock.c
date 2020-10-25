@@ -44,6 +44,8 @@ syscall pi_unlock(pi_lock_t *l){
     pri16 max,old = 0;
 
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
+        kprintf("Enterted Unlock \n";)
+        while (test_and_set(&l->guard,1)==1);
 
         for (i = 0; i <NPROC; i++){
             if (P[i] == currpid && (proctab[i].prprio > max)){ 
@@ -59,12 +61,10 @@ syscall pi_unlock(pi_lock_t *l){
         } 
         kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
 
-        while (test_and_set(&l->guard,1)==1);
         if (isempty(l->lock_list)){
             kprintf("%d released lk\n", currpid);
             l->flag = 0;
         }
-
 
         else{
             next_pid = dequeue(l->lock_list);
