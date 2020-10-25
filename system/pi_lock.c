@@ -41,7 +41,7 @@ syscall pi_lock(pi_lock_t *l){
 syscall pi_unlock(pi_lock_t *l){
     pid32 next_pid;
     int32 i = 0;
-    pri16 max,old = 0;
+    pri16 maxim,old = 0;
 
     if (pi_lock_count != 0 && (currpid == l->owner_pid)){
         kprintf("Enterted Unlock \n");
@@ -62,16 +62,15 @@ syscall pi_unlock(pi_lock_t *l){
         }
 
         for (i = 6; i <NPROC; i++){
-            if (P[i] == currpid && (proctab[i].prprio > max)){ 
-                max = proctab[P[i]].prprio;
-                kprintf("fr max is %d \n",max);
+            if (P[i] == currpid && (proctab[i].prprio > maxim)){ 
+                maxim = proctab[P[i]].prprio;
                 
             }   
         }
         old = proctab[currpid].prprio;
-        kprintf("max is %d \n",max);
-        if (max != 0){
-            proctab[currpid].prprio = max;
+        kprintf("max is %d \n",maxim);
+        if (maxim != 0){
+            proctab[currpid].prprio = maxim;
         }
         else {
             proctab[currpid].prprio = proctab[currpid].oldprio;
@@ -79,7 +78,7 @@ syscall pi_unlock(pi_lock_t *l){
         kprintf("PRIORITY_CHANGE = P%d::%d-%d \n", currpid, old, proctab[currpid].prprio); 
 
         l->guard = 0;   
-        max = 0;
+        maxim = 0;
         
     }
 
