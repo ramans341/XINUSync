@@ -38,7 +38,7 @@ process main(void) {
     pi_lock_t lock1,lock2;
     pid32 p1,p2,p3,p4;
 	int i;
-	
+	kprintf("========== PI - TESTCASE ========== \n");
     pi_initlock(&lock1);
     pi_initlock(&lock2);
     p1 = create((void *)p_lock, INITSTK, 1,"nthreads", 1, &lock1);
@@ -55,15 +55,19 @@ process main(void) {
     sleepms(10);
 	resume(p3);
 	kprintf("Resumed p3 \n");
-    sleepms(10);
+    sleepms(100);
 	resume(p4);
 	kprintf("Resumed p4 \n");
 
 	for (i = 0; i < 4; i++){
 		receive();
-		kprintf("Process %d / %d received \n", i+1, 4);
+	    //kprintf("Process %d / %d received \n", i+1, 4);
 	}
+
+    kprintf("Number of Processes Received %d \n",i);
+    kprintf("TEST CASE PASSED \n");
 	
+
 	
 	return OK;
 
