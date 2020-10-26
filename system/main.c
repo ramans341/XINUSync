@@ -24,11 +24,11 @@ process p2_lock(pi_lock_t *l,pi_lock_t *m ){
 	uint32 i;
 	for (i=0; i<5; i++){
 		pi_lock(l);
-		run_for_ms(10);
+		run_for_ms(100);
         pi_lock(m);
         run_for_ms(1000);
 		pi_unlock(m);
-        run_for_ms(10);	
+        run_for_ms(100);	
         pi_unlock(l);
 	}
 	return OK;
@@ -58,12 +58,15 @@ process main(void) {
 	kprintf("Created Processes \n");
 
 	resume(p1);
+    sleepms(5);
 	resume(p2);
+    sleepms(5);
 	resume(p3);
 	
     sleepms(50);
 
 	resume(p4);
+    sleepms(5);
     resume(p5);
 
     sleepms(5);
