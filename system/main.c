@@ -101,11 +101,12 @@ process main(void) {
 		receive();
         if (i==2){
             kprintf("TEST CASE PASSED with 5 process in Deadlock\n");
+            break;
         }
         
 	}
 
-    kprintf("Received %d Processes \n TESTCASES PASSED \n", i);
+    kprintf("\n\n ======================================================== \n\n", i);
 
     
 
