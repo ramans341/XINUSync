@@ -83,10 +83,14 @@ process main(void) {
 
 	for (i = 0; i < 8; i++){
 		receive();
-        if (i==2){
+        /*if (i==2){
             kprintf("TEST CASE PASSED with 5 process in Deadlock\n");
-        }
+
+        }*/
+        kprintf("Received %d process \n",i);
 	}
+
+    kprintf("TESTCASES PASSED \n");
 
     
     
