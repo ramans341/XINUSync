@@ -152,8 +152,10 @@ process main(void) {
     sleepms(10);
     resume(p8);
 
+    kprintf("Running ");
 	for (i = 0; i < 8; i++){
 		receive();
+        kprintf(". ");
 	}
 
     kprintf("Received %d Processes \n TESTCASES PASSED \n", i);
