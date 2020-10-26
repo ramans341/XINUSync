@@ -112,6 +112,14 @@ process main(void) {
 
     kprintf("========== DEADLOCK AVOIDING WITH TRYLOCK - TESTCASE PART 2 ========== \n");
 
+    al_initlock(&lock1);
+    al_initlock(&lock2);
+    al_initlock(&lock3);
+    al_initlock(&lock4);
+    al_initlock(&lock5);
+    al_initlock(&lock6);
+    al_initlock(&lock8);
+
     p1 = create((void *)p2_Tlock, INITSTK, 10,"1", 2, &lock1,&lock2);
     p2 = create((void *)p2_Tlock, INITSTK, 10,"2", 2, &lock2,&lock3);
     p3 = create((void *)p2_Tlock, INITSTK, 10,"3", 2, &lock3,&lock1);
