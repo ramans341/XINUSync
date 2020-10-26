@@ -27,7 +27,7 @@ process p2_Tlock(al_lock_t *l,al_lock_t *m ){
 		run_for_ms(100);
         if (al_trylock(m) != 0){
             al_unlock(l);
-            sleepms(rand()%200);
+            sleepms(rand()%100);
             goto TOP;
         }
         
