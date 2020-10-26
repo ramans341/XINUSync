@@ -30,7 +30,7 @@ process p2_lock(al_lock_t *l,al_lock_t *m ){
             sleepms(10);
             goto TOP;
         }
-        run_for_ms(1000);
+        run_for_ms(10);
 		al_unlock(m);
         run_for_ms(100);	
         al_unlock(l);
