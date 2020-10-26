@@ -11,41 +11,41 @@ void run_for_ms(uint32 time){
 	while (proctab[currpid].runtime-start < time);
 }
 
-process p_lock(pi_lock_t *l){
+process p_lock(al_lock_t *l){
 	uint32 i;
 	for (i=0; i<5; i++){
-		pi_lock(l);
+		al_lock(l);
 		run_for_ms(1000);
-		pi_unlock(l);		
+		al_unlock(l);		
 	}
 	return OK;
 }
-process p2_lock(pi_lock_t *l,pi_lock_t *m ){
+process p2_lock(al_lock_t *l,al_lock_t *m ){
 	uint32 i;
 	for (i=0; i<5; i++){
-		pi_lock(l);
+		al_lock(l);
 		run_for_ms(100);
-        pi_lock(m);
+        al_lock(m);
         run_for_ms(1000);
-		pi_unlock(m);
+		al_unlock(m);
         run_for_ms(100);	
-        pi_unlock(l);
+        al_unlock(l);
 	}
 	return OK;
 }
 
 process main(void) {
-    pi_lock_t lock1,lock2,lock3,lock4,lock5,lock6,lock8;
+    al_lock_t lock1,lock2,lock3,lock4,lock5,lock6,lock8;
     pid32 p1,p2,p3,p4,p5,p6,p7,p8;
 	int i;
 	kprintf("========== DEADLOCK - TESTCASE ========== \n");
-    pi_initlock(&lock1);
-    pi_initlock(&lock2);
-    pi_initlock(&lock3);
-    pi_initlock(&lock4);
-    pi_initlock(&lock5);
-    pi_initlock(&lock6);
-    pi_initlock(&lock8);
+    al_initlock(&lock1);
+    al_initlock(&lock2);
+    al_initlock(&lock3);
+    al_initlock(&lock4);
+    al_initlock(&lock5);
+    al_initlock(&lock6);
+    al_initlock(&lock8);
     p1 = create((void *)p2_lock, INITSTK, 10,"1", 2, &lock1,&lock2);
     p2 = create((void *)p2_lock, INITSTK, 10,"2", 2, &lock2,&lock3);
     p3 = create((void *)p2_lock, INITSTK, 10,"3", 2, &lock3,&lock1);
