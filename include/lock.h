@@ -1,5 +1,7 @@
 #define NSPINLOCKS      20
-
+#define NLOCKS          20
+#define NALOCKS         20
+#define NPILOCKS        20
 
 extern  int P[];
 extern  int printed[];

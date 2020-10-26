@@ -2,166 +2,73 @@
 
 #include <xinu.h>
 
-uint32 get_timestamp(){
-	return ctr1000;
-}
-
-void run_for_ms(uint32 time){
-	uint32 start = proctab[currpid].runtime;
-	while (proctab[currpid].runtime-start < time);
-}
-
-process p_lock(al_lock_t *l){
-	uint32 i;
-	for (i=0; i<5; i++){
-		al_lock(l);
-		run_for_ms(1000);
-		al_unlock(l);		
-	}
-	return OK;
-}
-process p2_Tlock(al_lock_t *l,al_lock_t *m ){
-	uint32 i;
-	for (i=0; i<5; i++){
-		TOP: al_lock(l);
-		run_for_ms(100);
-        if (al_trylock(m) != 0){
-            al_unlock(l);
-            sleepms(10);
-            goto TOP;
-        }
-        
-        run_for_ms(100);
-		al_unlock(m);
-        run_for_ms(100);	
-        al_unlock(l);
+process increment(uint32 *x, uint32 n, sl_lock_t *mutex){
+	uint32 i, j;	
+	for (i=0; i<n; i++){
+		sl_lock(mutex);
+		(*x)+=1;
+		for (j=0; j<1000; j++);
+		yield();
+		sl_unlock(mutex);
 	}
 	return OK;
 }
 
-process p2_lock(al_lock_t *l,al_lock_t *m ){
-	uint32 i;
-	for (i=0; i<5; i++){
-		al_lock(l);
-		run_for_ms(10);
-        al_lock(m);
-        run_for_ms(1000);
-		al_unlock(m);
-        run_for_ms(10);	
-        al_unlock(l);
+process nthreads(uint32 nt, uint32 *x, uint32 n, sl_lock_t *mutex){
+	pid32 pids[nt];
+	int i;	
+	for (i=0; i < nt; i++){
+		pids[i] = create((void *)increment, INITSTK, 1,"p", 3, x, n, mutex);
+		if (pids[i]==SYSERR){
+			kprintf("nthreads():: ERROR - could not create process");
+			return SYSERR;
+		}
 	}
+	for (i=0; i < nt; i++){
+		if (resume(pids[i]) == SYSERR){
+			kprintf("nthreads():: ERROR - could not resume process");
+			return SYSERR;
+		}
+	}
+	for (i=0; i < nt; i++) receive();
 	return OK;
 }
 
-process main(void) {
-    al_lock_t lock1,lock2,lock3,lock4,lock5,lock6,lock8;
-    pid32 p1,p2,p3,p4,p5,p6,p7,p8;
-	int i;
-	kprintf("========== DEADLOCK DETECTION - TESTCASE PART 1========== \n");
-    al_initlock(&lock1);
-    al_initlock(&lock2);
-    al_initlock(&lock3);
-    al_initlock(&lock4);
-    al_initlock(&lock5);
-    al_initlock(&lock6);
-    al_initlock(&lock8);
-    p1 = create((void *)p2_lock, INITSTK, 10,"1", 2, &lock1,&lock2);
-    p2 = create((void *)p2_lock, INITSTK, 10,"2", 2, &lock2,&lock3);
-    p3 = create((void *)p2_lock, INITSTK, 10,"3", 2, &lock3,&lock1);
-    p4 = create((void *)p2_lock, INITSTK, 10,"4", 2, &lock4,&lock5);
-    p5 = create((void *)p2_lock, INITSTK, 10,"5", 2, &lock5,&lock4);
-    p6 = create((void *)p_lock, INITSTK, 10,"6", 1, &lock6);
-    p7 = create((void *)p_lock, INITSTK, 10,"7", 1, &lock6);
-    p8 = create((void *)p_lock, INITSTK, 10,"8", 1, &lock8);
+process	main(void)
+{
+	uint32 x;			// shared variable
+	unsigned nt;			// number of threads cooperating
+	unsigned value = 1000; 		// target value of variable
+	sl_lock_t mutex;  		// mutex	
 
-	kprintf("Created Processes \n");
+	kprintf("\n\n=====     Testing the SPINLOCK's implementation     =====\n");
 
-	resume(p1);
-    sleepms(5);
-	resume(p2);
-    sleepms(5);
-	resume(p3);
-	
-    sleepms(50);
+	// 10 threads
+	kprintf("\n\n================= TEST 1 = 10 threads ===================\n");
+	x = 0;	nt = 10;
+ 	sl_initlock(&mutex); 
+	resume(create((void *)nthreads, INITSTK, 1,"nthreads", 4, nt, &x, value/nt, &mutex));
+	receive(); 
+	sync_printf("%d threads, n=%d, target value=%d\n", nt, value, x);
+	if (x==value) kprintf("TEST PASSED.\n"); else kprintf("TEST FAILED.\n");
 
-	resume(p4);
-    sleepms(5);
-    resume(p5);
+	// 20 threads
+        kprintf("\n\n================= TEST 2 = 20 threads ===================\n");
+        x = 0;  nt = 20;
+ 	sl_initlock(&mutex); 
+        resume(create((void *)nthreads, INITSTK, 1,"nthreads", 4, nt, &x, value/nt, &mutex));
+        receive();
+	sync_printf("%d threads, n=%d, target value=%d\n", nt, value, x);
+        if (x==value) kprintf("TEST PASSED.\n"); else kprintf("TEST FAILED.\n");
 
-    sleepms(5);
+	// 50 threads
+        kprintf("\n\n================= TEST 3 = 50 threads ===================\n");
+        x = 0;  nt = 50;
+ 	sl_initlock(&mutex); 
+        resume(create((void *)nthreads, INITSTK, 1,"nthreads", 4, nt, &x, value/nt, &mutex));
+        receive();
+	sync_printf("%d threads, n=%d, target value=%d\n", nt, value, x);
+        if (x==value) kprintf("TEST PASSED.\n"); else kprintf("TEST FAILED.\n");
 
-    resume(p6);
-    sleepms(50);
-    resume(p7);
-
-    sleepms(10);
-    resume(p8);
-
-	for (i = 0; i < 8; i++){
-		receive();
-        if (i==2){
-            kprintf("TEST CASE PASSED with 5 process in Deadlock\n");
-            break;
-        }
-        
-	}
-
-    kprintf("\n\n ======================================================== \n\n", i);
-
-    
-
-    kprintf("========== DEADLOCK AVOIDING WITH TRYLOCK - TESTCASE PART 2 ========== \n");
-
-    al_initlock(&lock1);
-    al_initlock(&lock2);
-    al_initlock(&lock3);
-    al_initlock(&lock4);
-    al_initlock(&lock5);
-    al_initlock(&lock6);
-    al_initlock(&lock8);
-
-    p1 = create((void *)p2_Tlock, INITSTK, 10,"1", 2, &lock1,&lock2);
-    p2 = create((void *)p2_Tlock, INITSTK, 10,"2", 2, &lock2,&lock3);
-    p3 = create((void *)p2_Tlock, INITSTK, 10,"3", 2, &lock3,&lock1);
-    p4 = create((void *)p2_Tlock, INITSTK, 10,"4", 2, &lock4,&lock5);
-    p5 = create((void *)p2_Tlock, INITSTK, 10,"5", 2, &lock5,&lock4);
-    p6 = create((void *)p_lock, INITSTK, 10,"6", 1, &lock6);
-    p7 = create((void *)p_lock, INITSTK, 10,"7", 1, &lock6);
-    p8 = create((void *)p_lock, INITSTK, 10,"8", 1, &lock8);
-
-	kprintf("Created Processes \n");
-
-	resume(p1);
-    sleepms(5);
-	resume(p2);
-    sleepms(5);
-	resume(p3);
-	
-    sleepms(50);
-
-	resume(p4);
-    sleepms(5);
-    resume(p5);
-
-    sleepms(5);
-
-    resume(p6);
-    sleepms(50);
-    resume(p7);
-
-    sleepms(10);
-    resume(p8);
-
-    kprintf("Running ");
-	for (i = 0; i < 8; i++){
-		receive();
-        kprintf(". ");
-	}
-
-    kprintf("\nReceived %d Processes \n TESTCASES PASSED \n", i);
-
-    
-	
 	return OK;
-
 }
