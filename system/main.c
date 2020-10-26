@@ -30,7 +30,7 @@ process p2_lock(al_lock_t *l,al_lock_t *m ){
             sleepms(rand()%200);
             goto TOP;
         }
-        kprintf("%d Acquired both locks \n", currpid );
+        
         run_for_ms(100);
 		al_unlock(m);
         run_for_ms(100);	
@@ -89,10 +89,10 @@ process main(void) {
             kprintf("TEST CASE PASSED with 5 process in Deadlock\n");
 
         }*/
-        kprintf("Received %d process \n",i);
+        //kprintf("Received %d process \n",i);
 	}
 
-    kprintf("TESTCASES PASSED \n");
+    kprintf("Received %d TESTCASES PASSED \n", i);
 
     
     
