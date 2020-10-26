@@ -105,7 +105,7 @@ void reduce_priority(){
         }
         old = proctab[currpid].prprio;
         //kprintf("max is %d \n",maxim);
-        if (maxim != 0){
+        if (maxim != 0 && maxim > proctab[currpid].oldprio){
             proctab[currpid].prprio = maxim;
         }
         else {
