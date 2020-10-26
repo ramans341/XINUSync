@@ -158,7 +158,7 @@ process main(void) {
         kprintf(". ");
 	}
 
-    kprintf("Received %d Processes \n TESTCASES PASSED \n", i);
+    kprintf("\nReceived %d Processes \n TESTCASES PASSED \n", i);
 
     
 	
