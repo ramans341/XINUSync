@@ -1,92 +1,93 @@
 /*  main.c  - main */
 
 #include <xinu.h>
-int x = 0;
-process p_lock(al_lock_t* l) {
-	uint32 i, j;
-	uint32 k = 1;
-	for (i = 0; i < 10; i++) {
-		//kprintf("%d\n", x++);
-		al_lock(l);
-		for (j = 0;j < 10000000;j++) k *= 2;
-		al_unlock(l);
+
+uint32 get_timestamp(){
+	return ctr1000;
+}
+
+void run_for_ms(uint32 time){
+	uint32 start = proctab[currpid].runtime;
+	while (proctab[currpid].runtime-start < time);
+}
+
+process p_lock(pi_lock_t *l){
+	uint32 i;
+	for (i=0; i<5; i++){
+		pi_lock(l);
+		run_for_ms(1000);
+		pi_unlock(l);		
 	}
-	//kprintf("Finished\n");
+	return OK;
+}
+process p2_lock(pi_lock_t *l,pi_lock_t *m ){
+	uint32 i;
+	for (i=0; i<5; i++){
+		pi_lock(l);
+		run_for_ms(10);
+        pi_lock(m);
+        run_for_ms(1000);
+		pi_unlock(m);
+        run_for_ms(10);	
+        pi_unlock(l);
+	}
 	return OK;
 }
 
-process p_lock2(al_lock_t* l1, al_lock_t* l2) {
-	uint32 i, j;
-	uint32 k = 1;
-	for (i = 0; i < 10000; i++) {
-		//kprintf("%d\n", x++);
-		al_lock(l1);
-		for (j = 0;j < 100000000;j++)k *= 2;
-		al_lock(l2);
-		for (j = 0;j < 100000000;j++)k *= 2;
-		al_unlock(l2);
-		for (j = 0;j < 100000000;j++)k *= 2;
-		al_unlock(l1);
-	}
-	//kprintf("Finished\n");
-	return OK;
-}
-
-process	main(void)
-{
-
-	al_lock_t mutex1, mutex2, mutex3, mutex4, mutex5, mutex6, mutex7, mutex8;
-	pid32		pid1, pid2, pid3, pid4, pid5, pid6, pid7, pid8, pid9, pid10;
+process main(void) {
+    pi_lock_t lock1,lock2,lock3,lock4,lock5,lock6,lock8;
+    pid32 p1,p2,p3,p4,p5,p6,p7,p8;
 	int i;
+	kprintf("========== DEADLOCK - TESTCASE ========== \n");
+    pi_initlock(&lock1);
+    pi_initlock(&lock2);
+    pi_initlock(&lock3);
+    pi_initlock(&lock4);
+    pi_initlock(&lock5);
+    pi_initlock(&lock6);
+    pi_initlock(&lock8);
+    p1 = create((void *)p2_lock, INITSTK, 10,"1", 2, &lock1,&lock2);
+    p2 = create((void *)p2_lock, INITSTK, 10,"2", 2, &lock2,&lock3);
+    p3 = create((void *)p2_lock, INITSTK, 10,"3", 2, &lock3,&lock1);
+    p4 = create((void *)p2_lock, INITSTK, 10,"4", 2, &lock4,&lock5);
+    p5 = create((void *)p2_lock, INITSTK, 10,"5", 2, &lock5,&lock4);
+    p6 = create((void *)p_lock, INITSTK, 10,"6", 1, &lock6);
+    p7 = create((void *)p_lock, INITSTK, 10,"7", 1, &lock6);
+    p8 = create((void *)p_lock, INITSTK, 10,"8", 1, &lock8);
 
-	kprintf("\n\n=========== TEST 1: Deadlock Detection  ===================\n\n");
+	kprintf("Created Processes \n");
 
-	al_initlock(&mutex1);
-	al_initlock(&mutex2);
-	al_initlock(&mutex3);
-	al_initlock(&mutex4);
-	al_initlock(&mutex5);
-	al_initlock(&mutex6);
-	al_initlock(&mutex7);
-	al_initlock(&mutex8);
-    kprintf("All process initialised \n");
-	pid1 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex1);
-	pid2 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex2);
-	pid3 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
-	pid4 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
-	pid5 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex3, &mutex4);
-	pid6 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex6, &mutex7);
-	pid7 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex5, &mutex3);
-	pid8 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex7, &mutex6);
-	pid9 = create((void*)p_lock, INITSTK, 1, "nthreads", 1, &mutex8);
-	pid10 = create((void*)p_lock2, INITSTK, 1, "nthreads", 2, &mutex4, &mutex5);
-    kprintf("All process created\n");
+	resume(p1);
+	resume(p2);
+	resume(p3);
+	
+    sleepms(50);
 
-    resume(pid5);
-	sleepms(500);
-	resume(pid7);
-	resume(pid10);
-	sleepms(500);
-    //kprintf("First 3 resumed\n");
-	resume(pid6);
-	sleepms(500);
-	resume(pid8);
-	sleepms(500);
-    //kprintf("Second 2 resumed\n");
-	resume(pid1);
-	resume(pid2);
-	//sleepms(500);
-	resume(pid3);
-	//sleepms(500);
-	resume(pid4);
-	resume(pid9);
-    //kprintf("Last 5 resumed\n");
+	resume(p4);
+    resume(p5);
 
+    sleepms(5);
 
-	for (i = 0;i < 10;i++) {
+    resume(p6);
+    sleepms(50);
+    resume(p7);
+
+    sleepms(10);
+    resume(p8);
+
+	for (i = 0; i < 8; i++){
 		receive();
-		kprintf("%d / %d processes finished\n", i + 1, 10);
+        kprintf("Number of Processes Received %d \n",i);
+        if (i==2){
+            kprintf("TEST CASE PASSED with 5 process in Deadlock\n");
+        }
 	}
 
+    
+    
+	
+
+	
 	return OK;
+
 }
