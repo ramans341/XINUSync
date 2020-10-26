@@ -51,6 +51,7 @@ extern syscall unlock(lock_t*);
 extern syscall al_initlock(al_lock_t*);
 extern syscall al_lock(al_lock_t*);
 extern syscall al_unlock(al_lock_t*);
+extern bool8   al_trylock(al_lock_t*);
 
 extern syscall pi_initlock(pi_lock_t *);
 extern syscall pi_lock(pi_lock_t *);

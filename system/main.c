@@ -14,7 +14,7 @@ void run_for_ms(uint32 time){
 process p_lock(al_lock_t *l){
 	uint32 i;
 	for (i=0; i<5; i++){
-		al_lock(l);
+		al_trylock(l);
 		run_for_ms(1000);
 		al_unlock(l);		
 	}
@@ -23,9 +23,9 @@ process p_lock(al_lock_t *l){
 process p2_lock(al_lock_t *l,al_lock_t *m ){
 	uint32 i;
 	for (i=0; i<5; i++){
-		al_lock(l);
+		al_trylock(l);
 		run_for_ms(100);
-        al_lock(m);
+        al_trylock(m);
         run_for_ms(1000);
 		al_unlock(m);
         run_for_ms(100);	

@@ -40,6 +40,27 @@ syscall al_lock(al_lock_t *l){
     l->owner_pid = currpid;
 }
 
+bool8 al_trylock(al_lock_t *l) {
+    pri16 temp_prio;
+
+    while (test_and_set(&l->guard,1)==1);
+
+    temp_prio = proctab[currpid].prprio;
+    proctab[currpid].prprio = 30000;
+
+    if (l->flag == 0){
+        l->flag = 1;
+        P[currpid] = -1;
+        l->guard = 0;
+        proctab[currpid].prprio = temp_prio;
+    }
+    else{
+        proctab[currpid].prprio = temp_prio;
+        return 0;
+    }
+
+}
+
 syscall al_unlock(al_lock_t *l){
     pid32 next_pid;
     pri16 temp_prio = 0;
