@@ -59,7 +59,7 @@ void find_deadlock(){
 
             while(!isempty(detected_cycle_list)){
                 temp = dequeue(detected_cycle_list);
-                kprintf("P%d-",temp);
+                kprintf("P%s-",proctab[temp].prname);
             }               
             kprintf("\n");
         }
