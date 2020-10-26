@@ -53,11 +53,11 @@ bool8 al_trylock(al_lock_t *l) {
         P[currpid] = -1;
         l->guard = 0;
         proctab[currpid].prprio = temp_prio;
-        return TRUE;
+        return 0;
     }
     else{
         proctab[currpid].prprio = temp_prio;
-        return FALSE;
+        return 1;
     }
 
 }
