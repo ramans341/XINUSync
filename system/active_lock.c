@@ -1,7 +1,7 @@
 #include <xinu.h>
 
 syscall al_initlock(al_lock_t* l){
-    if (++al_lock_count > NSPINLOCKS) {
+    if (++al_lock_count > NALOCKS) {
         return SYSERR;
     }
     l->flag = 0;
@@ -16,7 +16,7 @@ syscall al_lock(al_lock_t *l){
     while (test_and_set(&l->guard,1)==1);
 
     temp_prio = proctab[currpid].prprio;
-    proctab[currpid].prprio = 30000;
+    proctab[currpid].prprio = 1000;
 
     if (l->flag == 0){
         l->flag = 1;
@@ -26,12 +26,11 @@ syscall al_lock(al_lock_t *l){
     }
     else {
         P[currpid] = l->owner_pid; 
-        //kprintf(" %d hldng lk %d enqd\n",l->owner_pid,currpid);
         enqueue(currpid, l->lock_list);
         proctab[currpid].prprio = temp_prio;
         find_deadlock();
         temp_prio = proctab[currpid].prprio;
-        proctab[currpid].prprio = 30000;
+        proctab[currpid].prprio = 1000;
         al_setpark(currpid);
         l->guard = 0;
         proctab[currpid].prprio = temp_prio;
@@ -45,7 +44,7 @@ bool8 al_trylock(al_lock_t *l) {
 
     while (test_and_set(&l->guard,1)==1);
     temp_prio = proctab[currpid].prprio;
-    proctab[currpid].prprio = 30000;
+    proctab[currpid].prprio = 1000;
 
     if (l->flag == 0){
         l->owner_pid = currpid;
@@ -71,7 +70,7 @@ syscall al_unlock(al_lock_t *l){
         while (test_and_set(&l->guard,1)==1);
 
         temp_prio = proctab[currpid].prprio;
-        proctab[currpid].prprio = 30000;
+        proctab[currpid].prprio = 1000;
 
         if (isempty(l->lock_list)){
             l->flag = 0;
