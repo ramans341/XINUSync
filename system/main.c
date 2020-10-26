@@ -27,10 +27,11 @@ process p2_lock(al_lock_t *l,al_lock_t *m ){
 		run_for_ms(100);
         if (al_trylock(m) != 0){
             al_unlock(l);
-            sleepms(10);
+            sleepms(rand()%200);
             goto TOP;
         }
-        run_for_ms(10);
+        kprintf("%d Acquired both locks \n", currpid );
+        run_for_ms(100);
 		al_unlock(m);
         run_for_ms(100);	
         al_unlock(l);
