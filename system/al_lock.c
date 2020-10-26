@@ -44,7 +44,7 @@ bool8 al_trylock(al_lock_t *l) {
     pri16 temp_prio;
 
     while (test_and_set(&l->guard,1)==1);
-
+    kprintf("Trylock called by %d \n", currpid);
     temp_prio = proctab[currpid].prprio;
     proctab[currpid].prprio = 30000;
 
@@ -53,10 +53,12 @@ bool8 al_trylock(al_lock_t *l) {
         P[currpid] = -1;
         l->guard = 0;
         proctab[currpid].prprio = temp_prio;
+        kprintf("returning zero \n");
         return 0;
     }
     else{
         proctab[currpid].prprio = temp_prio;
+        kprintf("returning one \n");
         return 1;
     }
 
@@ -84,7 +86,7 @@ syscall al_unlock(al_lock_t *l){
 
         l->guard = 0;   
         proctab[currpid].prprio = temp_prio;
-        reduce_priority();
+        kprintf("unlocked \n");
     }
 
     else{
