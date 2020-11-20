@@ -2,7 +2,7 @@
 
 
 void find_deadlock(){
-    kprintf("DLC %d\n", currpid);
+    //kprintf("DLC %d\n", currpid);
     qid16 cycle_origin_list = newqueue();
 	qid16 detected_cycle_list = newqueue();
     int count = 0;
@@ -37,7 +37,7 @@ void find_deadlock(){
                 
         }
     }
-
+    kprintf("FOR LOOP OVER \n");
     /* for (i = 0; i < 50; i++) {
         kprintf("seen \n");
         kprintf("%d ", seen[i]);
