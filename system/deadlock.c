@@ -45,6 +45,7 @@ void find_deadlock(){
     
     while (!isempty(cycle_origin_list)){
         temp = origin = dequeue(cycle_origin_list);
+        kprintf("origin %d \n",temp);
         if(origin==-1)break;
         if (printed[origin] == 0) {
             printed[origin] = 1;
@@ -55,6 +56,7 @@ void find_deadlock(){
 
             while(!isempty(detected_cycle_list)){
                 temp = dequeue(detected_cycle_list);
+                kprintf("process %d in deadlock with process %d \n",temp,origin);
                 if (flag == 0){
                     kprintf("Deadlock Detected- ");
                     flag = 1;
