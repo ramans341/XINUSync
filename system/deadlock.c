@@ -18,7 +18,7 @@ void find_deadlock(){
    
     for (i = 0; i < NPROC; i++){
         //kprintf("In for loop %d, %d\n",i, seen[i]);
-        kprint("%d \n",i);
+        kprintf("%d \n",i);
         if (seen[i] != 1){
             j = i;
 
