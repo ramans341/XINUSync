@@ -18,12 +18,17 @@ void find_deadlock(){
    
     for (i = 0; i < NPROC; i++){
         //kprintf("In for loop %d, %d\n",i, seen[i]);
-        kprintf("%d \n",i);
+        //kprintf("%d \n",i);
         if (seen[i] != 1){
+            seen[i] == 1;
             j = i;
 
             while (P[j] != -1) {
                 j = P[j];
+                if (seen[j] == 1) {
+                    enqueue(j,cycle_origin_list);
+                    break;
+                }
                 seen[j] = 1;
                 if(P[j]==-1)break;
                 if (P[j] == i){
