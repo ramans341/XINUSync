@@ -2,7 +2,7 @@
 
 
 void find_deadlock(){
-    //kprintf("DLC %d\n", currpid);
+    kprintf("DLC %d\n", currpid);
     qid16 cycle_origin_list = newqueue();
 	qid16 detected_cycle_list = newqueue();
     int count = 0;
@@ -27,6 +27,7 @@ void find_deadlock(){
                 if(P[j]==-1)break;
                 if (P[j] == i){
                     enqueue(i,cycle_origin_list);
+                    kprintf("Enqueued %d \n",i);
                     count++;
                     break;
                 }
@@ -36,9 +37,13 @@ void find_deadlock(){
                 
         }
     }
+
+    /* for (i = 0; i < 50; i++) {
+        kprintf("seen \n");
+        kprintf("%d ", seen[i]);
+    } */
     
     while (!isempty(cycle_origin_list)){
-       
         temp = origin = dequeue(cycle_origin_list);
         if(origin==-1)break;
         if (printed[origin] == 0) {
