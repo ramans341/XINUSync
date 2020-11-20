@@ -55,7 +55,7 @@ void find_deadlock(){
                     flag = 1;
                 }
                 if (flag == 1){
-                kprintf("P%s-",proctab[temp].prname);
+                kprintf("P%d-",temp);
                 }
             }  
             flag = 0;             
