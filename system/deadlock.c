@@ -31,7 +31,7 @@ void find_deadlock(){
                 if(P[j]==-1)break;
                 if (P[j] == i){
                     enqueue(i,cycle_origin_list);
-                    kprintf("Enqueued %d \n",i);
+                    //kprintf("Enqueued %d \n",i);
                     count++;
                     break;
                 }
