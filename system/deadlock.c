@@ -24,9 +24,9 @@ void find_deadlock(){
 
             while (P[j] != -1) {
                 j = P[j];
-                if (seen[j] == 1) {
+                /*if (seen[j] == 1) {
                     break;
-                }
+                }*/
                 seen[j] = 1;
                 if(P[j]==-1)break;
                 if (P[j] == i){
